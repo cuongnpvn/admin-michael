@@ -1,0 +1,17 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { copy } from "@/lib/copy/vi";
+
+export default function AuthCodeErrorPage() {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-4 text-center">
+      <h1 className="text-xl font-semibold">{copy.auth.authErrorTitle}</h1>
+      <p className="max-w-md text-sm text-muted-foreground">
+        {copy.auth.authError}
+      </p>
+      <Button asChild>
+        <Link href="/login">{copy.auth.signIn}</Link>
+      </Button>
+    </div>
+  );
+}
