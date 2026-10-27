@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { EmailSignInForm } from "@/components/auth/email-sign-in-form";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { APP_NAME, copy } from "@/lib/copy/vi";
 import { createClient } from "@/lib/supabase/server";
@@ -20,6 +21,7 @@ export default async function LoginPage() {
           <h1 className="text-2xl font-semibold">{copy.admin.title}</h1>
           <p className="text-sm text-muted-foreground">{APP_NAME}</p>
         </div>
+        <EmailSignInForm />
         <GoogleSignInButton redirectTo="/admin" />
       </div>
     </main>

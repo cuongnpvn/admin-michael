@@ -895,6 +895,9 @@ export const copy = {
 		signOut: "Đăng xuất",
 		signInWithGoogle: "Đăng nhập với Google",
 		signingIn: "Đang đăng nhập…",
+		email: "Email",
+		password: "Mật khẩu",
+		signInFailed: "Email hoặc mật khẩu không đúng.",
 		dialogTitle: "Chào mừng trở lại",
 		dialogDescription:
 			"Đăng nhập để lưu tiến độ luyện tập và đồng bộ trên mọi thiết bị.",
