@@ -1,6 +1,7 @@
 "use client";
 
 import { AdminListeningAudioField } from "@/components/admin/exams/admin-listening-audio-field";
+import { AdminListeningGroupTurnAlignment } from "@/components/admin/exams/admin-listening-group-turn-alignment";
 import { AdminListeningImageField } from "@/components/admin/exams/admin-listening-image-field";
 import { AdminListeningPart12TagsField } from "@/components/admin/exams/admin-listening-part12-tags-field";
 import type { QuestionDraft } from "@/components/admin/exams/admin-question-detail-dialog";
@@ -16,6 +17,7 @@ import {
 	serializeListeningPart1OptionTranslationLines,
 	type ListeningPart1ExplanationLine,
 } from "@/lib/listening/part1-explanation-format";
+import type { TranscriptSegment } from "@/lib/listening/transcript-segments";
 import type { OptionLabelDb } from "@/types/content-db";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +32,9 @@ interface AdminListeningPart1DialogBodyProps {
 	testId: string;
 	optionLabels: OptionLabelDb[];
 	imageStoragePath?: string | null;
+	transcriptSegments: TranscriptSegment[];
+	spokenLineCount: number;
+	hasAudio: boolean;
 	disabled?: boolean;
 	onPatchDraft: (patch: Partial<QuestionDraft>) => void;
 	onPatchOption: (label: OptionLabelDb, patch: { text?: string }) => void;
@@ -137,6 +142,9 @@ export function AdminListeningPart1DialogBody({
 	testId,
 	optionLabels,
 	imageStoragePath,
+	transcriptSegments,
+	spokenLineCount,
+	hasAudio,
 	disabled,
 	onPatchDraft,
 	onPatchOption,
@@ -200,6 +208,17 @@ export function AdminListeningPart1DialogBody({
 					questionId={questionId}
 					globalItemNumber={draft.globalItemNumber}
 					disabled={disabled}
+				/>
+
+				<AdminListeningGroupTurnAlignment
+					bookId={bookId}
+					testId={testId}
+					questionId={questionId}
+					hasAudio={hasAudio}
+					turnCount={spokenLineCount}
+					initialSegments={transcriptSegments}
+					disabled={disabled}
+					emptyLabel={copy.admin.cms.turnAlignment.emptyQuestion}
 				/>
 
 				<AdminListeningPart12TagsField

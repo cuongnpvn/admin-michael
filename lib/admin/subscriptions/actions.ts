@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { revalidateAdminExamCatalogPaths } from "@/lib/admin/revalidate-admin-exam-catalog";
+import { notifyLearnerRevalidate } from "@/lib/learner-revalidate";
 import {
   AdminAccessError,
   requireAdminSession,
@@ -36,8 +37,9 @@ async function revalidateAfterUniversalChange(
     (row) => ({ bookId: row.book_id, testId: row.id }),
   );
 
-  revalidatePath("/admin/subscriptions");
+  revalidatePath("/subscriptions");
   revalidateAdminExamCatalogPaths();
+  notifyLearnerRevalidate({ scope: "all", tests });
 }
 
 export async function setUniversalFreeExplanation(input: {

@@ -203,13 +203,13 @@ export async function loadAdminPartEditor(
     questionIds.length > 0 && part === 1
       ? supabase
           .from("listening_part1_items")
-          .select("question_id, image_asset_id")
+          .select("question_id, image_asset_id, transcript_segments")
           .in("question_id", questionIds)
       : Promise.resolve({ data: [], error: null }),
     questionIds.length > 0 && part === 2
       ? supabase
           .from("listening_part2_items")
-          .select("question_id, transcript, audio_asset_id")
+          .select("question_id, transcript, audio_asset_id, transcript_segments")
           .in("question_id", questionIds)
       : Promise.resolve({ data: [], error: null }),
     groupIds.length > 0
@@ -367,6 +367,15 @@ export async function loadAdminPartEditor(
       groupTranscriptSegments: normalizeTranscriptSegments(
         (group as { transcript_segments?: unknown } | null)
           ?.transcript_segments,
+      ),
+      transcriptSegments: normalizeTranscriptSegments(
+        part === 1
+          ? (part1 as { transcript_segments?: unknown } | undefined)
+              ?.transcript_segments
+          : part === 2
+            ? (part2 as { transcript_segments?: unknown } | undefined)
+                ?.transcript_segments
+            : [],
       ),
       isFirstInGroup,
       readingPassageSetId: question.reading_passage_set_id,

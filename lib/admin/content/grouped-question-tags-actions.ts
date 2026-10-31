@@ -110,7 +110,7 @@ export async function importExamGroupedQuestionTags(
       part,
       tagsJson,
     );
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   } catch (error) {
     logGroupedQuestionTagsFailure("import_failed", {

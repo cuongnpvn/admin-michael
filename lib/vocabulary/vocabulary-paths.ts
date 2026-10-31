@@ -16,9 +16,9 @@ export function vocabularyPracticePath(deckId: string, count?: number): string {
 }
 
 export function adminVocabPath(): string {
-  return "/admin/vocab";
+  return "/vocab";
 }
 
 export function adminVocabDeckPath(deckId: string): string {
-  return `/admin/vocab/${deckId}`;
+  return `/vocab/${deckId}`;
 }

@@ -10,6 +10,7 @@ import {
 	KeyRound,
 	LayoutDashboard,
 	Menu,
+	AudioLines,
 	BookOpen,
 	Newspaper,
 	SpellCheck,
@@ -37,16 +38,16 @@ import {
 
 const NAV_ITEMS = [
 	{
-		href: "/admin",
+		href: "/",
 		label: copy.admin.nav.dashboard,
 		icon: LayoutDashboard,
-		match: (path: string) => path === "/admin",
+		match: (path: string) => path === "/",
 	},
 	{
-		href: "/admin/exams",
+		href: "/exams",
 		label: copy.admin.nav.exams,
 		icon: ClipboardList,
-		match: (path: string) => path.startsWith("/admin/exams"),
+		match: (path: string) => path.startsWith("/exams"),
 	},
 	{
 		href: ADMIN_ENTRANCE_TEST_PATH,
@@ -58,43 +59,49 @@ const NAV_ITEMS = [
 		href: adminAnswerKeysPath(),
 		label: copy.admin.nav.answerKeys,
 		icon: KeyRound,
-		match: (path: string) => path.startsWith("/admin/answer-keys"),
+		match: (path: string) => path.startsWith("/answer-keys"),
 	},
 	{
-		href: "/admin/vocab",
+		href: "/vocab",
 		label: copy.admin.nav.vocab,
 		icon: SpellCheck,
-		match: (path: string) => path.startsWith("/admin/vocab"),
+		match: (path: string) => path.startsWith("/vocab"),
 	},
 	{
-		href: "/admin/courses",
+		href: "/dictation",
+		label: copy.nav.dictation,
+		icon: AudioLines,
+		match: (path: string) => path.startsWith("/dictation"),
+	},
+	{
+		href: "/courses",
 		label: copy.admin.nav.courses,
 		icon: BookOpen,
-		match: (path: string) => path.startsWith("/admin/courses"),
+		match: (path: string) => path.startsWith("/courses"),
 	},
 	{
-		href: "/admin/blog",
+		href: "/blog",
 		label: copy.admin.nav.blog,
 		icon: Newspaper,
-		match: (path: string) => path.startsWith("/admin/blog"),
+		match: (path: string) => path.startsWith("/blog"),
 	},
 	{
 		href: adminUsersPath(),
 		label: copy.admin.nav.users,
 		icon: Users,
-		match: (path: string) => path.startsWith("/admin/users"),
+		match: (path: string) => path.startsWith("/users"),
 	},
 	{
 		href: adminSubscriptionsPath(),
 		label: copy.admin.nav.subscriptions,
 		icon: Crown,
-		match: (path: string) => path.startsWith("/admin/subscriptions"),
+		match: (path: string) => path.startsWith("/subscriptions"),
 	},
 	{
 		href: adminNotificationsPath(),
 		label: copy.admin.nav.notifications,
 		icon: Bell,
-		match: (path: string) => path.startsWith("/admin/notifications"),
+		match: (path: string) => path.startsWith("/notifications"),
 	},
 ] as const;
 

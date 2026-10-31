@@ -11,6 +11,7 @@ import { AdminCreateExamTestDialog } from "@/components/admin/exams/admin-create
 import { AdminDeleteExamTestDialog } from "@/components/admin/exams/admin-delete-exam-test-dialog";
 import { AdminEditCatalogLabelsDialog } from "@/components/admin/exams/admin-edit-catalog-labels-dialog";
 import { AdminUpdateExamModuleDialog } from "@/components/admin/exams/admin-update-exam-module-dialog";
+import { AlignListeningTestDictationButton } from "@/components/admin/exams/align-listening-test-dictation-button";
 import {
 	publishAdminExam,
 	unpublishAdminExam,
@@ -53,16 +54,22 @@ function PartSection({
 				<h2 className="text-lg font-semibold">{title}</h2>
 				<div className="flex flex-wrap items-center gap-2">
 					{section === "listening" ? (
-						<AdminUpdateExamModuleDialog
-							bookId={book.id}
-							testId={test.id}
-							testLabel={test.label}
-							moduleId="listening-parts-1-2"
-							label={
-								copy.admin.exams.updateModule
-									.editModuleListeningParts12
-							}
-						/>
+						<>
+							<AlignListeningTestDictationButton
+								bookId={book.id}
+								testId={test.id}
+							/>
+							<AdminUpdateExamModuleDialog
+								bookId={book.id}
+								testId={test.id}
+								testLabel={test.label}
+								moduleId="listening-parts-1-2"
+								label={
+									copy.admin.exams.updateModule
+										.editModuleListeningParts12
+								}
+							/>
+						</>
 					) : null}
 				</div>
 			</div>
@@ -238,7 +245,7 @@ export function AdminTestOverview({
 								href={
 									isEntranceTestBook(book.id)
 										? ADMIN_ENTRANCE_TEST_PATH
-										: "/admin/exams"
+										: "/exams"
 								}
 							>
 								{isEntranceTestBook(book.id)

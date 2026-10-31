@@ -119,7 +119,7 @@ export async function importExamPartFromRaw(
       testId,
       testLabel,
     );
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   } catch (error) {
     return mapImportError(error);
@@ -188,7 +188,7 @@ export async function exportExamPartPassageTranslations(
 
   const part = translationPartForExamModule(moduleId);
   if (!part || part === 3) {
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   }
 
@@ -253,7 +253,7 @@ export async function translateExamPartPassageExport(
 
   const part = translationPartForExamModule(moduleId);
   if (!part || part === 3) {
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   }
 
@@ -291,7 +291,7 @@ export async function importExamPartPassageTranslationJson(
         testId,
         translationJson,
       );
-      revalidateAdminExamCatalogPaths();
+      revalidateAdminExamCatalogPaths(bookId, testId);
       return { ok: true };
     } catch (error) {
       return mapImportError(error);
@@ -307,7 +307,7 @@ export async function importExamPartPassageTranslationJson(
         testId,
         translationJson,
       );
-      revalidateAdminExamCatalogPaths();
+      revalidateAdminExamCatalogPaths(bookId, testId);
       return { ok: true };
     } catch (error) {
       return mapImportError(error);
@@ -334,7 +334,7 @@ export async function importExamPartPassageTranslationJson(
         entries,
         questionIndex,
       );
-      revalidateAdminExamCatalogPaths();
+      revalidateAdminExamCatalogPaths(bookId, testId);
       return { ok: true };
     } catch (error) {
       return mapImportError(error);
@@ -343,7 +343,7 @@ export async function importExamPartPassageTranslationJson(
 
   const part = translationPartForExamModule(moduleId);
   if (!part) {
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   }
 
@@ -356,7 +356,7 @@ export async function importExamPartPassageTranslationJson(
       part,
       translationJson,
     );
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   } catch (error) {
     return mapImportError(error);
@@ -418,7 +418,7 @@ export async function importListeningTranscriptTranslationJson(
       part,
       translationJson,
     );
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   } catch (error) {
     return mapImportError(error);
@@ -438,7 +438,7 @@ export async function importExamPartPassageTranslations(
         bookId,
         testId,
       );
-      revalidateAdminExamCatalogPaths();
+      revalidateAdminExamCatalogPaths(bookId, testId);
       return { ok: true };
     } catch (error) {
       return mapImportError(error);
@@ -453,7 +453,7 @@ export async function importExamPartPassageTranslations(
         bookId,
         testId,
       );
-      revalidateAdminExamCatalogPaths();
+      revalidateAdminExamCatalogPaths(bookId, testId);
       return { ok: true };
     } catch (error) {
       return mapImportError(error);
@@ -462,7 +462,7 @@ export async function importExamPartPassageTranslations(
 
   const part = translationPartForExamModule(moduleId);
   if (!part) {
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   }
 
@@ -485,7 +485,7 @@ export async function importExamPartPassageTranslations(
         part,
       );
     }
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   } catch (error) {
     return mapImportError(error);
@@ -547,7 +547,7 @@ export async function importExamPartContentVocabularyJson(
       part,
       vocabularyJson,
     );
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   } catch (error) {
     return mapImportError(error);
@@ -561,13 +561,13 @@ export async function importExamPartContentVocabulary(
   testId: string,
 ): Promise<CreateExamStepResult> {
   if (!examModuleSupportsContentVocabulary(moduleId)) {
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   }
 
   const parts = contentVocabularyPartsForExamModule(moduleId);
   if (parts.length === 0) {
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   }
 
@@ -581,7 +581,7 @@ export async function importExamPartContentVocabulary(
         part,
       );
     }
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   } catch (error) {
     return mapImportError(error);

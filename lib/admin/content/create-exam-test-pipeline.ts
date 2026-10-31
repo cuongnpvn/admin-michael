@@ -116,9 +116,9 @@ async function resolveBookId(
   return id;
 }
 
-function revalidateExamPaths(_bookId: string, _testId: string) {
-  revalidatePath("/admin");
-  revalidateAdminExamCatalogPaths();
+function revalidateExamPaths(bookId: string, testId: string) {
+  revalidatePath("/");
+  revalidateAdminExamCatalogPaths(bookId, testId);
 }
 
 function isTruncatedMultipartError(error: unknown): boolean {

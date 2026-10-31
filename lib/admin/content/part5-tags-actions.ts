@@ -87,7 +87,7 @@ export async function importExamPart5TagsJson(
   try {
     const { supabase } = await requireAdminSession();
     await importPart5TagsFromRaw(supabase, bookId, testId, tagsJson);
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   } catch (error) {
     logPart5TagsFailure("import_failed", {

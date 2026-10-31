@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath, updateTag } from "next/cache";
+import { notifyLearnerRevalidate } from "@/lib/learner-revalidate";
 import {
   AdminAccessError,
   requireAdminSession,
@@ -39,9 +40,10 @@ function accessErrorMessage(code: string): string {
 
 function revalidateVocabularyPaths(deckId: string): void {
   updateTag("vocabulary-catalog");
-  revalidatePath("/admin");
-  revalidatePath("/admin/vocab");
-  revalidatePath(`/admin/vocab/${deckId}`);
+  notifyLearnerRevalidate({ scope: "vocabulary" });
+  revalidatePath("/");
+  revalidatePath("/vocab");
+  revalidatePath(`/vocab/${deckId}`);
 }
 
 function validateImageFile(file: FormDataEntryValue | null): File | string {

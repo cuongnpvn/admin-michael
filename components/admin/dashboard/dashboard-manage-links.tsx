@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  AudioLines,
   BadgePercent,
   Bell,
   ClipboardCheck,
@@ -25,7 +26,7 @@ const LINKS = [
     icon: Users,
   },
   {
-    href: "/admin/exams",
+    href: "/exams",
     label: copy.admin.nav.exams,
     icon: ClipboardList,
   },
@@ -45,9 +46,14 @@ const LINKS = [
     icon: Bell,
   },
   {
-    href: "/admin/vocab",
+    href: "/vocab",
     label: copy.admin.nav.vocab,
     icon: SpellCheck,
+  },
+  {
+    href: "/dictation",
+    label: copy.nav.dictation,
+    icon: AudioLines,
   },
   {
     href: adminAnswerKeysPath(),

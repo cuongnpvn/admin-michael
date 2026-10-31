@@ -124,7 +124,7 @@ export async function importExamListeningPartTags(
       part,
       tagsJson,
     );
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(bookId, testId);
     return { ok: true };
   } catch (error) {
     logFailure("import_failed", {

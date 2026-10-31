@@ -22,6 +22,10 @@ import { AdminListeningImageField } from "@/components/admin/exams/admin-listeni
 import { AdminListeningQuestionDialogBody } from "@/components/admin/exams/admin-listening-question-dialog-body";
 import { AdminQuestionExplanationFields } from "@/components/admin/exams/admin-question-explanation-fields";
 import { explanationToDraftFields } from "@/lib/content/question-explanation";
+import {
+	part1SpokenLines,
+	part2SpokenLines,
+} from "@/lib/listening/part12-spoken-lines";
 import type { AdminPartQuestionRow } from "@/types/admin-part-editor";
 import type { OptionLabelDb } from "@/types/content-db";
 import { cn } from "@/lib/utils";
@@ -64,6 +68,18 @@ interface AdminQuestionDetailDialogProps {
 	contextTopic?: string | null;
 	isPending: boolean;
 	onSave: (questionId: string, draft: QuestionDraft) => void;
+}
+
+function spokenLineCount(question: AdminPartQuestionRow, partNum: number): number {
+	const options = question.options.map((option) => ({
+		text: option.text,
+		sortOrder: option.sortOrder,
+	}));
+	if (partNum === 1) return part1SpokenLines(options).length;
+	if (partNum === 2) {
+		return part2SpokenLines(question.transcript ?? "", options).length;
+	}
+	return 0;
 }
 
 function listeningGroupImagePart(partNum: number): 3 | 4 | null {
@@ -312,6 +328,9 @@ export function AdminQuestionDetailDialog({
 									partNum={partNum}
 									optionLabels={optionLabels}
 									imageStoragePath={question.imageStoragePath}
+									transcriptSegments={question.transcriptSegments}
+									spokenLineCount={spokenLineCount(question, partNum)}
+									hasAudio={question.globalItemNumber > 0}
 									disabled={isPending}
 									onPatchDraft={patchDraft}
 									onPatchOption={patchOption}

@@ -62,7 +62,7 @@ export function AdminPartWorkspace({
 		<div className="space-y-6">
 			<nav className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
 				<Link
-					href={isEntrance ? ADMIN_ENTRANCE_TEST_PATH : "/admin/exams"}
+					href={isEntrance ? ADMIN_ENTRANCE_TEST_PATH : "/exams"}
 					className="hover:text-primary"
 				>
 					{isEntrance

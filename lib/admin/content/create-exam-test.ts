@@ -61,7 +61,7 @@ export async function createAdminExamTest(
     data: {
       bookId,
       testId,
-      redirectPath: `/admin/exams?bookId=${encodeURIComponent(bookId)}&testId=${encodeURIComponent(testId)}`,
+      redirectPath: `/exams?bookId=${encodeURIComponent(bookId)}&testId=${encodeURIComponent(testId)}`,
     },
   };
 }

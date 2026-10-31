@@ -132,7 +132,7 @@ function AdminTestTabPanel({
 		);
 	}
 
-	const backHref = "/admin/exams";
+	const backHref = "/exams";
 	const backLabel = copy.admin.exams.breadcrumbExams;
 
 	return (
@@ -386,7 +386,7 @@ function AdminSectionBookTabsInner({
 														testStats ?? undefined
 													}
 													section={section}
-													backHref="/admin/exams"
+													backHref="/exams"
 													backLabel={
 														copy.admin.exams
 															.breadcrumbExams

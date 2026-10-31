@@ -11,7 +11,7 @@ export default async function LoginPage() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect("/admin");
+    redirect("/");
   }
 
   return (
@@ -22,7 +22,7 @@ export default async function LoginPage() {
           <p className="text-sm text-muted-foreground">{APP_NAME}</p>
         </div>
         <EmailSignInForm />
-        <GoogleSignInButton redirectTo="/admin" />
+        <GoogleSignInButton redirectTo="/" />
       </div>
     </main>
   );

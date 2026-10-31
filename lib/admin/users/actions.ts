@@ -20,7 +20,7 @@ function accessError(code: string): string {
 }
 
 function revalidateUserPlanPaths() {
-  revalidatePath("/admin/users");
+  revalidatePath("/users");
 }
 
 async function applySubscriptionPlan(

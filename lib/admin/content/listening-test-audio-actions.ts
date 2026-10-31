@@ -21,8 +21,8 @@ function accessError(code: string): string {
   return copy.admin.cms.errors.generic;
 }
 
-function revalidateExamAdminPaths(_bookId: string, _testId: string) {
-  revalidateAdminExamCatalogPaths();
+function revalidateExamAdminPaths(bookId: string, testId: string) {
+  revalidateAdminExamCatalogPaths(bookId, testId);
 }
 
 export type ListeningTestAudioState = {

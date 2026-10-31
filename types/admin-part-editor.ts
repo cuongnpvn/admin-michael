@@ -47,6 +47,8 @@ export interface AdminPartQuestionRow {
   groupVocabulary: ContentVocabularyWord[];
   /** Speaker-turn / sentence audio marks for the listening group (Parts 3–4). */
   groupTranscriptSegments: TranscriptSegment[];
+  /** Spoken-line audio marks for a Part 1 or Part 2 question. */
+  transcriptSegments: TranscriptSegment[];
   isFirstInGroup: boolean;
   readingPassageSetId: string | null;
 }

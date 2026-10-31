@@ -58,11 +58,11 @@ function accessError(code: string): string {
 }
 
 function revalidatePartPaths(
-  _bookId: string,
-  _testId: string,
+  bookId: string,
+  testId: string,
   _part: number,
 ) {
-  revalidateAdminExamCatalogPaths();
+  revalidateAdminExamCatalogPaths(bookId, testId);
 }
 
 function revalidateAdminPartEditorPaths(
@@ -73,8 +73,8 @@ function revalidateAdminPartEditorPaths(
   revalidatePartPaths(bookId, testId, part);
 }
 
-function revalidateAdminTestPaths(_bookId: string, _testId: string) {
-  revalidateAdminExamCatalogPaths();
+function revalidateAdminTestPaths(bookId: string, testId: string) {
+  revalidateAdminExamCatalogPaths(bookId, testId);
 }
 
 const OPTION_LABELS: OptionLabelDb[] = ["A", "B", "C", "D"];

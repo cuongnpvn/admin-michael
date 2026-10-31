@@ -20,6 +20,16 @@ export const ADMIN_INSTRUCTIONS = [
 		filename: "listening-part-2-tags.md",
 	},
 	{
+		id: "listening-part-1-sentence-alignment",
+		title: "Part 1 Sentence Alignment",
+		filename: "listening-part-1-sentence-alignment.md",
+	},
+	{
+		id: "listening-part-2-sentence-alignment",
+		title: "Part 2 Sentence Alignment",
+		filename: "listening-part-2-sentence-alignment.md",
+	},
+	{
 		id: "listening-part-3",
 		title: "Part 3",
 		filename: "listening-part-3.md",

@@ -21,20 +21,20 @@ export function lectureExercisePath(
 }
 
 export function adminLecturesPath(): string {
-  return "/admin/courses";
+  return "/courses";
 }
 
 export function adminLectureChatPath(): string {
-  return "/admin/courses/chat";
+  return "/courses/chat";
 }
 
 export function adminLectureCollectionPath(collectionId: string): string {
-  return `/admin/courses/${collectionId}`;
+  return `/courses/${collectionId}`;
 }
 
 export function adminLectureEditorPath(
   collectionId: string,
   lectureId: string,
 ): string {
-  return `/admin/courses/${collectionId}/${lectureId}`;
+  return `/courses/${collectionId}/${lectureId}`;
 }

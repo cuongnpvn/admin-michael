@@ -2,7 +2,7 @@ import { isEntranceTestBook } from "@/lib/content/catalog-ids";
 import type { PublishSection } from "@/lib/content/publish-test";
 import type { BookCatalogEntry } from "@/types/test-data";
 
-export const ADMIN_ENTRANCE_TEST_PATH = "/admin/entrance-test";
+export const ADMIN_ENTRANCE_TEST_PATH = "/entrance-test";
 
 export function adminEntranceTestPath(
   testId?: string,
@@ -28,7 +28,7 @@ function adminExamsQueryPath(
     return adminEntranceTestPath(testId, extra);
   }
   const params = new URLSearchParams({ bookId, testId, ...extra });
-  return `/admin/exams?${params.toString()}`;
+  return `/exams?${params.toString()}`;
 }
 
 export function adminExamsPath(bookId: string, testId: string): string {
@@ -36,41 +36,41 @@ export function adminExamsPath(bookId: string, testId: string): string {
 }
 
 export function adminVocabPath(): string {
-  return "/admin/vocab";
+  return "/vocab";
 }
 
 export function adminVocabDeckPath(deckId: string): string {
-  return `/admin/vocab/${deckId}`;
+  return `/vocab/${deckId}`;
 }
 
 export function adminAnswerKeysPath(): string {
-  return "/admin/answer-keys";
+  return "/answer-keys";
 }
 
 export function adminBlogPath(): string {
-  return "/admin/blog";
+  return "/blog";
 }
 
 export function adminUsersPath(): string {
-  return "/admin/users";
+  return "/users";
 }
 
 export function adminSubscriptionsPath(bookId?: string): string {
-  if (!bookId) return "/admin/subscriptions";
+  if (!bookId) return "/subscriptions";
   const params = new URLSearchParams({ bookId });
-  return `/admin/subscriptions?${params.toString()}`;
+  return `/subscriptions?${params.toString()}`;
 }
 
 export function adminNotificationsPath(): string {
-  return "/admin/notifications";
+  return "/notifications";
 }
 
 export function adminBlogNewPath(): string {
-  return "/admin/blog/new";
+  return "/blog/new";
 }
 
 export function adminBlogEditPath(postId: string): string {
-  return `/admin/blog/${postId}/edit`;
+  return `/blog/${postId}/edit`;
 }
 
 /** @deprecated Listening admin routes are temporarily disabled; use exams + section. */

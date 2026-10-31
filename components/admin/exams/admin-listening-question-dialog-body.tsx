@@ -1,6 +1,7 @@
 "use client";
 
 import { AdminListeningAudioField } from "@/components/admin/exams/admin-listening-audio-field";
+import { AdminListeningGroupTurnAlignment } from "@/components/admin/exams/admin-listening-group-turn-alignment";
 import { AdminListeningImageField } from "@/components/admin/exams/admin-listening-image-field";
 import { AdminListeningPart1DialogBody } from "@/components/admin/exams/admin-listening-part1-dialog-body";
 import { AdminListeningPart12TagsField } from "@/components/admin/exams/admin-listening-part12-tags-field";
@@ -10,6 +11,7 @@ import type { QuestionDraft } from "@/components/admin/exams/admin-question-deta
 import { Label } from "@/components/ui/label";
 import { isEntranceTestBook } from "@/lib/content/catalog-ids";
 import { copy } from "@/lib/copy/vi";
+import type { TranscriptSegment } from "@/lib/listening/transcript-segments";
 import type { OptionLabelDb } from "@/types/content-db";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +23,9 @@ interface AdminListeningQuestionDialogBodyProps {
 	partNum: number;
 	optionLabels: OptionLabelDb[];
 	imageStoragePath?: string | null;
+	transcriptSegments?: TranscriptSegment[];
+	spokenLineCount?: number;
+	hasAudio?: boolean;
 	disabled?: boolean;
 	onPatchDraft: (patch: Partial<QuestionDraft>) => void;
 	onPatchOption: (label: OptionLabelDb, patch: { text?: string }) => void;
@@ -96,6 +101,9 @@ export function AdminListeningQuestionDialogBody({
 	partNum,
 	optionLabels,
 	imageStoragePath,
+	transcriptSegments = [],
+	spokenLineCount = 0,
+	hasAudio = false,
 	disabled,
 	onPatchDraft,
 	onPatchOption,
@@ -109,6 +117,9 @@ export function AdminListeningQuestionDialogBody({
 				testId={testId}
 				optionLabels={optionLabels}
 				imageStoragePath={imageStoragePath}
+				transcriptSegments={transcriptSegments}
+				spokenLineCount={spokenLineCount}
+				hasAudio={hasAudio}
 				disabled={disabled}
 				onPatchDraft={onPatchDraft}
 				onPatchOption={onPatchOption}
@@ -135,14 +146,26 @@ export function AdminListeningQuestionDialogBody({
 				/>
 			) : null}
 			{partNum === 2 ? (
-				<AdminListeningAudioField
-					bookId={bookId}
-					testId={testId}
-					part={2}
-					questionId={questionId}
-					globalItemNumber={draft.globalItemNumber}
-					disabled={disabled}
-				/>
+				<>
+					<AdminListeningAudioField
+						bookId={bookId}
+						testId={testId}
+						part={2}
+						questionId={questionId}
+						globalItemNumber={draft.globalItemNumber}
+						disabled={disabled}
+					/>
+					<AdminListeningGroupTurnAlignment
+						bookId={bookId}
+						testId={testId}
+						questionId={questionId}
+						hasAudio={hasAudio}
+						turnCount={spokenLineCount}
+						initialSegments={transcriptSegments}
+						disabled={disabled}
+						emptyLabel={copy.admin.cms.turnAlignment.emptyQuestion}
+					/>
+				</>
 			) : null}
 			<div className="grid gap-6">
 				<div className="space-y-4">

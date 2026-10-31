@@ -28,7 +28,7 @@ export function EmailSignInForm() {
       return;
     }
 
-    router.push("/admin");
+    router.push("/");
     router.refresh();
   }
 

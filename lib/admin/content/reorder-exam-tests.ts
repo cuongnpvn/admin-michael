@@ -1,7 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { revalidateAdminExamCatalogPaths } from "@/lib/admin/revalidate-admin-exam-catalog";
+import {
+  revalidateAdminExamCatalogPaths,
+  revalidateLearnerPublishedCatalog,
+} from "@/lib/admin/revalidate-admin-exam-catalog";
 import { AdminAccessError, requireAdminSession } from "@/lib/admin/auth/require-admin";
 import { copy } from "@/lib/copy/vi";
 
@@ -16,9 +19,10 @@ function accessError(code: string): string {
 }
 
 function revalidateAfterTestReorder(bookId: string): void {
-  revalidatePath("/admin");
+  revalidatePath("/");
   revalidateAdminExamCatalogPaths();
-  revalidatePath("/admin/subscriptions");
+  revalidateLearnerPublishedCatalog();
+  revalidatePath("/subscriptions");
 }
 
 export async function reorderAdminExamTests(

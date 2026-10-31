@@ -101,7 +101,7 @@ export async function linkAdminListeningPlaybackAudio(
       if (error) throw error;
     }
 
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(input.bookId, input.testId);
 
     const publicUrl = buildPublicAssetUrlForBucket(AUDIOS_BUCKET, expectedPath);
     if (!publicUrl) {

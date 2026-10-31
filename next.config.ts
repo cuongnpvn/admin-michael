@@ -28,14 +28,34 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/admin/lectures",
-        destination: "/admin/courses",
+        source: "/lectures",
+        destination: "/courses",
         permanent: true,
       },
       {
-        source: "/admin/lectures/:path*",
-        destination: "/admin/courses/:path*",
+        source: "/lectures/:path*",
+        destination: "/courses/:path*",
         permanent: true,
+      },
+      {
+        source: "/admin/lectures",
+        destination: "/courses",
+        permanent: false,
+      },
+      {
+        source: "/admin/lectures/:path*",
+        destination: "/courses/:path*",
+        permanent: false,
+      },
+      {
+        source: "/admin",
+        destination: "/",
+        permanent: false,
+      },
+      {
+        source: "/admin/:path*",
+        destination: "/:path*",
+        permanent: false,
       },
     ];
   },

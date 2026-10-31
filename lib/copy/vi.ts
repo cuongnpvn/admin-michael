@@ -2432,6 +2432,7 @@ export const copy = {
 				generate: "Tạo dictation",
 				generating: "Đang tạo...",
 				empty: "Chưa có mốc thời gian cho nhóm này.",
+				emptyQuestion: "Chưa có mốc thời gian cho câu này.",
 				markedBadge: "Đã chấm",
 				unmarkedBadge: "Chưa chấm",
 				rawSeconds: (startSec: number, endSec: number) =>
@@ -2446,6 +2447,19 @@ export const copy = {
 				alignAllPartial: (ok: number, total: number) =>
 					`Đã tách ${ok}/${total} nhóm.`,
 				alignAllEmpty: "Chưa có nhóm hội thoại để tách.",
+				alignAllQuestionsSuccess: (count: number) =>
+					`Đã tách dictation cho ${count} câu.`,
+				alignAllQuestionsPartial: (ok: number, total: number) =>
+					`Đã tách ${ok}/${total} câu.`,
+				alignAllQuestionsEmpty: "Chưa có câu để tách.",
+				wholeTest: "Tách dictation toàn bài",
+				wholeTestGenerating: (done: number, total: number) =>
+					`Đang tách ${done}/${total}...`,
+				wholeTestSuccess: (count: number) =>
+					`Đã cập nhật dictation cho ${count} mục.`,
+				wholeTestPartial: (ok: number, total: number) =>
+					`Đã tách ${ok}/${total} mục. Dictation đã được cập nhật với các mục thành công.`,
+				wholeTestEmpty: "Bài test chưa có câu Listening.",
 				editTimes: "Sửa mốc thời gian",
 				saveTimes: "Lưu mốc",
 				cancelTimes: "Hủy sửa mốc",
@@ -2455,8 +2469,12 @@ export const copy = {
 				errors: {
 					generic: "Không chấm được mốc audio. Vui lòng thử lại.",
 					notFound: "Không tìm thấy nhóm transcript.",
+					notFoundQuestion: "Không tìm thấy câu hỏi.",
 					unsupportedPart:
 						"Chấm mốc audio chỉ dùng cho Part 3 và Part 4.",
+					unsupportedShortPart:
+						"Chấm mốc audio chỉ dùng cho Part 1 và Part 2.",
+					noQuestionAudio: "Câu này chưa có file audio.",
 					noTurns: "Transcript chưa có dòng lượt nói.",
 					noSentences: "Transcript chưa có câu nói.",
 					noAudio: "Nhóm này chưa có file audio.",
@@ -2836,6 +2854,46 @@ export const copy = {
 				imageTooLarge: "Ảnh vượt quá 2MB.",
 				imageUploadFailed: "Tải ảnh thất bại. Vui lòng thử lại.",
 				imageNotCommonDeck: "Chỉ quản lý ảnh trên bộ từ chung (admin).",
+			},
+		},
+		dictationManage: {
+			title: "Chép chính tả",
+			subtitle:
+				"Danh sách bài dictation hiện có. Import từ bài Listening đã có mốc thời gian; bài mới được lưu ở dạng nháp.",
+			import: "Import",
+			importTitle: "Import dictation",
+			importDescription:
+				"Chọn bộ đề và bài test. Chỉ câu Listening đã có mốc thời gian được ghi vào dictation.",
+			bookLabel: "Bộ đề",
+			testLabel: "Bài test",
+			bookPlaceholder: "Chọn bộ đề",
+			testPlaceholder: "Chọn bài test",
+			importSubmit: "Import",
+			importing: "Đang import…",
+			importSuccess: (count: number) =>
+				`Đã cập nhật dictation cho ${count} mục.`,
+			publish: "Publish",
+			publishTitle: "Publish dictation",
+			publishDescription:
+				"Chọn bộ đề và bài test để publish mọi mục dictation đã có của bài đó cho học viên.",
+			publishSubmit: "Publish",
+			publishing: "Đang publish…",
+			publishSuccess: (count: number) => `Đã publish ${count} mục.`,
+			publishEmpty: "Bài test này chưa có dictation.",
+			publishAlready: "Các mục của bài test này đã được publish.",
+			empty: "Chưa có bài chép chính tả.",
+			unknownSource: "Không xác định",
+			published: "published",
+			draft: "Nháp",
+			groupCount: (count: number) => `${count} mục`,
+			columns: {
+				audio: "Audio",
+				title: "Tiêu đề",
+				topic: "Chủ đề",
+				part: "Part",
+				level: "Trình độ",
+				status: "Trạng thái",
+				segments: "Câu",
 			},
 		},
 		vocabManage: {

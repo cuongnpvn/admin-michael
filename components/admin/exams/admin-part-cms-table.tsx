@@ -12,6 +12,7 @@ import {
 import { GripVertical, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { AlignAllListeningPart3TurnsButton } from "@/components/admin/exams/align-all-listening-part3-turns-button";
+import { AlignAllListeningShortItemsButton } from "@/components/admin/exams/align-all-listening-short-items-button";
 import {
 	AdminListeningGroupDialog,
 	type ListeningGroupDraft,
@@ -580,6 +581,15 @@ export function AdminPartCmsTable({
 						</>
 					) : partNum === 1 || partNum === 2 ? (
 						<>
+							<AlignAllListeningShortItemsButton
+								bookId={initialData.bookId}
+								testId={initialData.testId}
+								questions={initialData.questions.map((question) => ({
+									id: question.id,
+									globalItemNumber: question.globalItemNumber,
+								}))}
+								disabled={isPending || isReorderMode}
+							/>
 							<ImportContentVocabularyDialog
 								bookId={initialData.bookId}
 								testId={initialData.testId}

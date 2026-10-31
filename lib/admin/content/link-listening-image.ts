@@ -87,7 +87,7 @@ export async function linkAdminListeningImage(
       }
     }
 
-    revalidateAdminExamCatalogPaths();
+    revalidateAdminExamCatalogPaths(input.bookId, input.testId);
 
     const publicUrl = buildPublicAssetUrlForBucket(
       IMAGES_BUCKET,

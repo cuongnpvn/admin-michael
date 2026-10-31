@@ -96,8 +96,8 @@ export async function importListeningFromJson(
 
 		const summary = await importListeningJsonFromRaw(supabase, raw);
 
-		revalidatePath("/admin");
-		revalidateAdminExamCatalogPaths();
+		revalidatePath("/");
+		revalidateAdminExamCatalogPaths(summary.bookId, summary.testId);
 
 		return { ok: true, summary };
 	} catch (error) {
@@ -153,8 +153,8 @@ export async function importReadingFromJson(
 
 		const summary = await importReadingJsonFromRaw(supabase, raw);
 
-		revalidatePath("/admin");
-		revalidateAdminExamCatalogPaths();
+		revalidatePath("/");
+		revalidateAdminExamCatalogPaths(summary.bookId, summary.testId);
 
 		return { ok: true, summary };
 	} catch (error) {
@@ -276,8 +276,8 @@ export async function importPassageTranslationsFromJson(
 						raw,
 					);
 
-		revalidatePath("/admin");
-		revalidateAdminExamCatalogPaths();
+		revalidatePath("/");
+		revalidateAdminExamCatalogPaths(bookId, testId);
 
 		// #region agent log
 		passageTranslationDebugLog(

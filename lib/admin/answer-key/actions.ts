@@ -70,9 +70,9 @@ async function resolveAnswerKeyRaw(formData: FormData): Promise<string> {
   return file.text();
 }
 
-function revalidateAnswerKeyPaths(_bookId: string, _testId: string) {
-  revalidatePath("/admin/answer-keys");
-  revalidateAdminExamCatalogPaths();
+function revalidateAnswerKeyPaths(bookId: string, testId: string) {
+  revalidatePath("/answer-keys");
+  revalidateAdminExamCatalogPaths(bookId, testId);
 }
 
 export async function checkExamAnswerKey(

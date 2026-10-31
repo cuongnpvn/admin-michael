@@ -9,6 +9,10 @@ import {
 	alignListeningGroupTurns,
 	updateListeningGroupTurnSegments,
 } from "@/lib/admin/content/listening-group-turn-alignment-actions";
+import {
+	alignListeningShortItem,
+	updateListeningShortItemSegments,
+} from "@/lib/admin/content/listening-short-item-alignment-actions";
 import { copy } from "@/lib/copy/vi";
 import type { TranscriptSegment } from "@/lib/listening/transcript-segments";
 import { Button } from "@/components/ui/button";
@@ -16,21 +20,25 @@ import { Button } from "@/components/ui/button";
 interface AdminListeningGroupTurnAlignmentProps {
 	bookId: string;
 	testId: string;
-	groupId: string;
+	groupId?: string;
+	questionId?: string;
 	hasAudio: boolean;
 	turnCount: number;
 	initialSegments: TranscriptSegment[];
 	disabled?: boolean;
+	emptyLabel?: string;
 }
 
 export function AdminListeningGroupTurnAlignment({
 	bookId,
 	testId,
 	groupId,
+	questionId,
 	hasAudio,
 	turnCount,
 	initialSegments,
 	disabled,
+	emptyLabel,
 }: AdminListeningGroupTurnAlignmentProps) {
 	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
@@ -45,11 +53,9 @@ export function AdminListeningGroupTurnAlignment({
 
 	function handleGenerate() {
 		startTransition(async () => {
-			const result = await alignListeningGroupTurns(
-				bookId,
-				testId,
-				groupId,
-			);
+			const result = questionId
+				? await alignListeningShortItem(bookId, testId, questionId)
+				: await alignListeningGroupTurns(bookId, testId, groupId ?? "");
 			if (!result.ok) {
 				toast.error(result.error);
 				return;
@@ -69,12 +75,19 @@ export function AdminListeningGroupTurnAlignment({
 		);
 		setIsSaving(true);
 		try {
-			const result = await updateListeningGroupTurnSegments(
-				bookId,
-				testId,
-				groupId,
-				next,
-			);
+			const result = questionId
+				? await updateListeningShortItemSegments(
+						bookId,
+						testId,
+						questionId,
+						next,
+					)
+				: await updateListeningGroupTurnSegments(
+						bookId,
+						testId,
+						groupId ?? "",
+						next,
+					);
 			if (!result.ok) {
 				toast.error(result.error);
 				return false;
@@ -107,7 +120,9 @@ export function AdminListeningGroupTurnAlignment({
 			</div>
 
 			{segments.length === 0 ? (
-				<p className="text-sm text-muted-foreground">{labels.empty}</p>
+				<p className="text-sm text-muted-foreground">
+					{emptyLabel ?? labels.empty}
+				</p>
 			) : (
 				<ol className="space-y-2">
 					{segments.map((segment) => (

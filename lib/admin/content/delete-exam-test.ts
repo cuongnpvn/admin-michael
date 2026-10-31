@@ -30,9 +30,9 @@ export async function deleteTestRow(
   if (error) throw error;
 }
 
-function revalidateAfterTestDelete(_bookId: string, _testId: string): void {
-  revalidatePath("/admin");
-  revalidateAdminExamCatalogPaths();
+function revalidateAfterTestDelete(bookId: string, testId: string): void {
+  revalidatePath("/");
+  revalidateAdminExamCatalogPaths(bookId, testId);
 }
 
 export async function deleteAdminExamTest(

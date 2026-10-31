@@ -53,7 +53,7 @@ export function AdminDeleteExamTestDialog({
       toast.success(copy.admin.exams.toast.testDeleted);
       setOpen(false);
       router.push(
-        isEntranceTestBook(bookId) ? ADMIN_ENTRANCE_TEST_PATH : "/admin/exams",
+        isEntranceTestBook(bookId) ? ADMIN_ENTRANCE_TEST_PATH : "/exams",
       );
       router.refresh();
     });

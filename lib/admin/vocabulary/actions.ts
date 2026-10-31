@@ -2,6 +2,7 @@
 
 import { ZodError } from "zod";
 import { revalidatePath, updateTag } from "next/cache";
+import { notifyLearnerRevalidate } from "@/lib/learner-revalidate";
 import {
   AdminAccessError,
   requireAdminSession,
@@ -81,10 +82,11 @@ function accessErrorMessage(code: string): string {
 
 function revalidateVocabularyPaths(deckId?: string): void {
   updateTag("vocabulary-catalog");
-  revalidatePath("/admin");
-  revalidatePath("/admin/vocab");
+  notifyLearnerRevalidate({ scope: "vocabulary" });
+  revalidatePath("/");
+  revalidatePath("/vocab");
   if (deckId) {
-    revalidatePath(`/admin/vocab/${deckId}`);
+    revalidatePath(`/vocab/${deckId}`);
   }
 }
 

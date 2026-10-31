@@ -56,11 +56,11 @@ function mapAlignmentError(error: unknown): string {
 }
 
 function revalidateGroupPaths(
-  _bookId: string,
-  _testId: string,
+  bookId: string,
+  testId: string,
   _part: string,
 ): void {
-  revalidateAdminExamCatalogPaths();
+  revalidateAdminExamCatalogPaths(bookId, testId);
 }
 
 export async function alignListeningGroupTurns(
