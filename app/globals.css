@@ -297,4 +297,250 @@
       transform: translateY(0);
     }
   }
+
+  .lecture-html {
+    color: var(--foreground);
+    line-height: 1.75;
+  }
+
+  .lecture-html img {
+    display: block;
+    width: 100%;
+    max-width: 28rem;
+    height: auto;
+    margin-inline: auto;
+    border-radius: var(--radius-md);
+  }
+
+  .lecture-html .lecture-photo {
+    width: 100%;
+    max-width: 28rem;
+    margin: 0.75rem auto;
+  }
+
+  .lecture-html .lecture-photo audio {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .lecture-html .lecture-photo img {
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  .lecture-html a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .lecture-html a[href^="#exercise"] {
+    display: block;
+    width: fit-content;
+    padding-top: 0.75rem;
+  }
+
+  .lecture-html-muted,
+  .lecture-html-muted p {
+    color: var(--muted-foreground);
+  }
+
+  .lecture-html > * + * {
+    margin-top: 0.9rem;
+  }
+
+  .lecture-html > :first-child {
+    margin-top: 0;
+  }
+
+  .lecture-html h2,
+  .lecture-html h3,
+  .lecture-html h4 {
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .lecture-html h2 {
+    margin-top: 1.75rem;
+    font-size: 1.35rem;
+  }
+
+  .lecture-html h3 {
+    margin-top: 1.35rem;
+    font-size: 1.15rem;
+  }
+
+  .lecture-html ul,
+  .lecture-html ol {
+    margin-inline-start: 0.25rem;
+    padding-inline-start: 1.75rem;
+    list-style-position: outside;
+  }
+
+  .lecture-html ul {
+    list-style-type: disc;
+  }
+
+  .lecture-html ol {
+    list-style-type: decimal;
+  }
+
+  .lecture-html li + li {
+    margin-top: 0.4rem;
+  }
+
+  .lecture-html li ul,
+  .lecture-html li ol {
+    margin-top: 0.35rem;
+  }
+
+  .lecture-html em,
+  .lecture-html i,
+  .lecture-html .caption,
+  .lecture-html .right,
+  .lecture-html .wrong,
+  .lecture-html .highlight {
+    font-style: italic;
+  }
+
+  .lecture-html strong,
+  .lecture-html b {
+    font-weight: 650;
+  }
+
+  .lecture-html u {
+    text-underline-offset: 2px;
+  }
+
+  .lecture-html table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .lecture-html th,
+  .lecture-html td {
+    border: 1px solid var(--border);
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+  }
+
+  .lecture-html th {
+    background: var(--muted);
+    font-weight: 650;
+  }
+
+  .lecture-html .kicker {
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .lecture-html .lead {
+    font-size: 1.05rem;
+    color: var(--muted-foreground);
+  }
+
+  .lecture-html aside,
+  .lecture-html .note,
+  .lecture-html .warning,
+  .lecture-html .formula,
+  .lecture-html .example {
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    background: var(--muted);
+  }
+
+  .lecture-html .example {
+    background: color-mix(in oklab, var(--primary) 8%, var(--background));
+    border-color: color-mix(in oklab, var(--primary) 22%, var(--border));
+  }
+
+  .lecture-html .warning {
+    border-color: color-mix(in oklab, var(--destructive) 35%, var(--border));
+  }
+
+  .lecture-html .formula {
+    border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
+  }
+
+  .lecture-html .cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .lecture-html .cols {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .lecture-html .highlight {
+    background: color-mix(in oklab, var(--primary) 18%, transparent);
+    border-radius: 4px;
+    padding: 0.05em 0.25em;
+    font-weight: 650;
+  }
+
+  .lecture-html .right {
+    color: var(--foreground);
+    font-weight: 650;
+  }
+
+  .lecture-html .wrong {
+    color: var(--destructive);
+    font-weight: 650;
+  }
+
+  .lecture-html .caption {
+    margin-top: 0.45rem;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+    text-align: center;
+  }
+
+  .lecture-html blockquote {
+    border-left: 3px solid color-mix(in oklab, var(--primary) 45%, var(--border));
+    padding-left: 1rem;
+    color: var(--muted-foreground);
+    font-style: italic;
+  }
+
+  .tutor-answer h2,
+  .tutor-answer h3,
+  .tutor-answer h4 {
+    margin-top: 0.85rem;
+    font-size: 0.95rem;
+  }
+
+  .tutor-answer .tutor-answer-table {
+    overflow-x: auto;
+  }
+
+  .tutor-answer table {
+    font-size: 0.85rem;
+  }
+
+  .tutor-stream-caret > *:last-child::after {
+    content: "▍";
+    margin-left: 0.15ch;
+    animation: tutor-caret-blink 1s step-end infinite;
+  }
+
+  @keyframes tutor-caret-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tutor-stream-caret > *:last-child::after {
+      animation: none;
+    }
+  }
 }

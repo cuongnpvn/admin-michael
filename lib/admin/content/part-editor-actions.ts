@@ -1217,6 +1217,47 @@ export async function deleteAdminQuestion(
   }
 }
 
+export async function deleteAdminListeningGroup(
+  bookId: string,
+  testId: string,
+  part: number,
+  groupId: string,
+): Promise<ActionResult> {
+  if (part !== 3 && part !== 4) {
+    return { ok: false, error: copy.admin.cms.errors.generic };
+  }
+
+  try {
+    const { supabase } = await requireAdminSession();
+    const partDb = String(part) as ToeicPartDb;
+
+    const { data, error } = await supabase
+      .from("listening_groups")
+      .delete()
+      .eq("id", groupId)
+      .eq("book_id", bookId)
+      .eq("test_id", testId)
+      .eq("part", partDb)
+      .select("id");
+
+    if (error) throw error;
+    if (!data?.length) {
+      return { ok: false, error: copy.admin.cms.errors.generic };
+    }
+
+    revalidatePartPaths(bookId, testId, part);
+    return { ok: true };
+  } catch (error) {
+    if (error instanceof AdminAccessError) {
+      return { ok: false, error: accessError(error.message) };
+    }
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : accessError("generic"),
+    };
+  }
+}
+
 export async function validateAdminExamTest(
   bookId: string,
   testId: string,

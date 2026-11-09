@@ -244,7 +244,9 @@ export function createOutlineActions(deps: {
 		const index = keysRef.current.indexOf(key);
 		const section = sectionsRef.current[index];
 		if (!section) return;
-		if (!window.confirm(fields.deleteSectionConfirm(section.questions.length))) return;
+		const confirmDelete =
+			mode === "lesson" ? fields.deleteMidLectureConfirm : fields.deleteSectionConfirm;
+		if (!window.confirm(confirmDelete(section.questions.length))) return;
 		const nextSections = sectionsRef.current.filter((_, itemIndex) => itemIndex !== index);
 		const nextKeys = keysRef.current.filter((_, itemIndex) => itemIndex !== index);
 		commit(nextSections, nextKeys);

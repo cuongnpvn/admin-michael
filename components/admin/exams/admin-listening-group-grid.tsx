@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
+import { Trash2 } from "lucide-react";
 import { copy } from "@/lib/copy/vi";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DifficultyScaleBar } from "@/components/study/difficulty-scale-bar";
 import type { AdminPartQuestionRow } from "@/types/admin-part-editor";
@@ -55,6 +57,8 @@ interface AdminListeningGroupGridProps {
   questions: AdminPartQuestionRow[];
   difficultyStats?: PracticeDifficultyStatsMap;
   onSelectGroup: (groupId: string) => void;
+  onDeleteGroup?: (groupId: string) => void;
+  deleteDisabled?: boolean;
   showTurnAlignmentStatus?: boolean;
 }
 
@@ -62,6 +66,8 @@ export function AdminListeningGroupGrid({
   questions,
   difficultyStats,
   onSelectGroup,
+  onDeleteGroup,
+  deleteDisabled = false,
   showTurnAlignmentStatus = false,
 }: AdminListeningGroupGridProps) {
   const groups = useMemo(
@@ -108,20 +114,39 @@ export function AdminListeningGroupGrid({
             <CardHeader className="gap-3 p-4 pb-2">
               <div className="flex items-start justify-between gap-2">
                 <CardTitle className="text-base font-semibold">{title}</CardTitle>
-                <div className="flex shrink-0 flex-wrap justify-end gap-1">
-                  {showTurnAlignmentStatus ? (
-                    <Badge
-                      variant={group.hasTurnMarks ? "success" : "outline"}
-                      className="font-normal"
-                    >
-                      {group.hasTurnMarks
-                        ? copy.admin.cms.turnAlignment.markedBadge
-                        : copy.admin.cms.turnAlignment.unmarkedBadge}
+                <div className="flex shrink-0 items-start gap-1">
+                  <div className="flex flex-wrap justify-end gap-1">
+                    {showTurnAlignmentStatus ? (
+                      <Badge
+                        variant={group.hasTurnMarks ? "success" : "outline"}
+                        className="font-normal"
+                      >
+                        {group.hasTurnMarks
+                          ? copy.admin.cms.turnAlignment.markedBadge
+                          : copy.admin.cms.turnAlignment.unmarkedBadge}
+                      </Badge>
+                    ) : null}
+                    <Badge variant="secondary" className="font-normal">
+                      {copy.admin.cms.groupCardQuestionCount(group.questions.length)}
                     </Badge>
+                  </div>
+                  {onDeleteGroup ? (
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="ghost"
+                      disabled={deleteDisabled}
+                      className="size-8 text-muted-foreground hover:text-destructive"
+                      aria-label={copy.admin.cms.deleteGroup}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onDeleteGroup(group.groupId);
+                      }}
+                      onKeyDown={(event) => event.stopPropagation()}
+                    >
+                      <Trash2 className="size-4" />
+                    </Button>
                   ) : null}
-                  <Badge variant="secondary" className="font-normal">
-                    {copy.admin.cms.groupCardQuestionCount(group.questions.length)}
-                  </Badge>
                 </div>
               </div>
             </CardHeader>

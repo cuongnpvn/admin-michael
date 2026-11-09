@@ -2270,7 +2270,9 @@ export const copy = {
 			saveChanges: "Cập nhật",
 			cancel: "Hủy",
 			deleteQuestion: "Xóa câu",
+			deleteGroup: "Xóa nhóm",
 			deleteConfirmTitle: "Xóa câu hỏi?",
+			deleteGroupConfirmTitle: "Xóa nhóm câu?",
 			deleteConfirmBody: "Hành động này không thể hoàn tác.",
 			colTutorHint: "Hint",
 			tutorHintPlaceholder: "Gợi ý cho chế độ luyện tập (Part 5)…",
@@ -3219,6 +3221,8 @@ export const copy = {
 				title: "Tiêu đề",
 				excerpt: "Phụ đề",
 				body: "Nội dung HTML",
+				editBody: "Sửa",
+				insertPractice: "Chèn mid-lecture",
 				insertImage: "Chèn ảnh",
 				insertingImage: "Đang tải ảnh…",
 				alignTags: "Căn chỉnh thẻ",
@@ -3264,9 +3268,22 @@ export const copy = {
 				preview: "Xem trước",
 				exercise: "Phần luyện tập",
 				exerciseEmpty: "Chưa có phần luyện tập.",
+				midLecture: "mid-lecture",
+				midLectureTitle: "tên mid-lecture",
+				midLectureEmpty: "Chưa có mid-lecture.",
+				addMidLecture: "Thêm mid-lecture",
+				deleteMidLecture: "Xóa mid-lecture",
+				saveMidLecture: "Lưu mid-lecture",
+				deleteMidLectureConfirm: (count: number) =>
+					count > 0
+						? `Xóa mid-lecture này và ${count} câu?`
+						: "Xóa mid-lecture này?",
+				midLectureItem: (index: number, title: string) =>
+					title.trim()
+						? `mid-lecture ${index} · ${title.trim()}`
+						: `mid-lecture ${index}`,
 				addSection: "Thêm phần",
 				sectionTitle: "Tên phần",
-				insertExerciseLink: "Chèn liên kết",
 				addQuestion: "Thêm câu",
 				testSections: "Nội dung test",
 				testSectionKind: "Dạng phần",

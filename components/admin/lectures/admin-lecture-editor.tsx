@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { deleteLecture, publishLecture, saveLectureEditor } from "@/lib/admin/lectures/editor-actions";
 import { adminLectureCollectionPath } from "@/lib/lectures/paths";
+import { midLectureTitles } from "@/lib/lectures/practice-token";
 import { prettyPrintLectureHtml } from "@/lib/lectures/pretty-print-html";
 import { normalizeLectureTags } from "@/lib/lectures/tags";
 import type { LecturePracticeRef } from "@/lib/lectures/practice";
@@ -126,6 +127,7 @@ export function AdminLectureEditor({
   const [contentPending, setContentPending] = useState(false);
   const [isPending, startTransition] = useTransition();
   const insertHtml = useRef<(snippet: string) => void>(() => {});
+  const loadedProps = useRef({ lecture, questions, practiceQuestions, vocabItems });
   const itemType: LectureItemType = isRestDay
     ? "rest"
     : isFinalTestDay
@@ -139,6 +141,15 @@ export function AdminLectureEditor({
             : "normal";
 
   useEffect(() => {
+    if (
+      loadedProps.current.lecture === lecture &&
+      loadedProps.current.questions === questions &&
+      loadedProps.current.practiceQuestions === practiceQuestions &&
+      loadedProps.current.vocabItems === vocabItems
+    ) {
+      return;
+    }
+    loadedProps.current = { lecture, questions, practiceQuestions, vocabItems };
     setTitle(lecture.title);
     setExcerpt(lecture.excerpt);
     setBodyHtml(prettyPrintLectureHtml(lecture.bodyHtml));
@@ -351,6 +362,10 @@ export function AdminLectureEditor({
           value={bodyHtml}
           onChange={setBodyHtml}
           insertRef={insertHtml}
+          practiceTitles={midLectureTitles(draftQuestions)}
+          onSave={handleSave}
+          saving={isPending}
+          saveError={error}
         />
       )}
 
@@ -366,9 +381,6 @@ export function AdminLectureEditor({
             questions={draftQuestions}
             onChange={setDraftQuestions}
             onPendingChange={setContentPending}
-            onInsertLink={(section) =>
-              insertHtml.current(`<a href="#exercise-${section}">luyện tập</a>`)
-            }
           />
           <AdminLecturePracticePicker
             selected={draftPractice}

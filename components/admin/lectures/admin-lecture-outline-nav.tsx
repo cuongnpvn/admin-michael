@@ -17,6 +17,8 @@ export function AdminLectureOutlineNav({
 	outline: LectureOutlineController;
 }) {
 	const fields = copy.admin.lectures.fields;
+	const itemLabel =
+		mode === "lesson" ? fields.midLectureItem : fields.outlineSection;
 	const draftOpen = outline.open.mode === "draft-section";
 	const draftIndex = outline.sections.length;
 
@@ -29,7 +31,7 @@ export function AdminLectureOutlineNav({
 				return (
 					<div key={key} className="shrink-0 lg:w-full">
 						<SectionButton
-							label={fields.outlineSection(index + 1, section.title)}
+							label={itemLabel(index + 1, section.title)}
 							hint={groupHint(mode, section.part, section.kind)}
 							active={active}
 							onClick={() => outline.selectSection(key)}
@@ -61,7 +63,7 @@ export function AdminLectureOutlineNav({
 			{draftOpen ? (
 				<div className="shrink-0 lg:w-full">
 					<SectionButton
-						label={fields.outlineSection(
+						label={itemLabel(
 							draftIndex + 1,
 							outline.open.mode === "draft-section" ? outline.open.meta.title : "",
 						)}

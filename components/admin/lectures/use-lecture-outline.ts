@@ -77,9 +77,9 @@ export function useLectureOutline({
 	useEffect(() => {
 		if (mode !== "lesson" || !lessonGroupsDiverge(questionsRef.current)) return;
 		const next = readOutlineSections("lesson", questionsRef.current);
-		const nextKeys =
-			keysRef.current.length === next.length ? keysRef.current : freshKeys(next);
-		commit(next, nextKeys);
+		const written = writeOutlineSections(mode, next);
+		lastWritten.current = JSON.stringify(written);
+		onChangeRef.current(written);
 		// Publish the learner grouping once so a later page save keeps the split.
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [mode]);

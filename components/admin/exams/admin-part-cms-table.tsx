@@ -34,6 +34,7 @@ import {
 } from "@/components/admin/exams/admin-question-detail-dialog";
 import {
 	addAdminQuestion,
+	deleteAdminListeningGroup,
 	deleteAdminQuestion,
 	swapAdminQuestions,
 	saveAdminListeningGroup,
@@ -147,6 +148,7 @@ export function AdminPartCmsTable({
 	);
 	const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
 	const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+	const [deleteGroupId, setDeleteGroupId] = useState<string | null>(null);
 	const [isReorderMode, setIsReorderMode] = useState(false);
 	const [orderedQuestions, setOrderedQuestions] = useState(
 		initialData.questions,
@@ -207,6 +209,10 @@ export function AdminPartCmsTable({
 
 	const deleteTarget = deleteTargetId
 		? (questionById.get(deleteTargetId) ?? null)
+		: null;
+	const deleteGroup = deleteGroupId
+		? (listeningGroups.find((group) => group.groupId === deleteGroupId) ??
+			null)
 		: null;
 
 	const colSpan =
@@ -499,6 +505,26 @@ export function AdminPartCmsTable({
 		);
 	}
 
+	function confirmDeleteGroup() {
+		if (!deleteGroupId) return;
+		const groupId = deleteGroupId;
+		runAction(
+			() =>
+				deleteAdminListeningGroup(
+					initialData.bookId,
+					initialData.testId,
+					partNum,
+					groupId,
+				),
+			() => {
+				setDeleteGroupId(null);
+				setSelectedGroupId((current) =>
+					current === groupId ? null : current,
+				);
+			},
+		);
+	}
+
 	return (
 		<div className="space-y-4">
 			<div className="flex flex-wrap items-start justify-between gap-3">
@@ -655,6 +681,8 @@ export function AdminPartCmsTable({
 					questions={initialData.questions}
 					difficultyStats={difficultyStats}
 					onSelectGroup={setSelectedGroupId}
+					onDeleteGroup={setDeleteGroupId}
+					deleteDisabled={isPending}
 					showTurnAlignmentStatus={partNum === 3 || partNum === 4}
 				/>
 			) : (
@@ -1000,6 +1028,56 @@ export function AdminPartCmsTable({
 					</DialogFooter>
 				</DialogContent>
 			</Dialog>
+
+			{isGroupListeningPart && (
+				<Dialog
+					open={deleteGroupId !== null}
+					onOpenChange={(open) => {
+						if (!open) setDeleteGroupId(null);
+					}}
+				>
+					<DialogContent className="max-w-sm">
+						<DialogHeader>
+							<DialogTitle>
+								{copy.admin.cms.deleteGroupConfirmTitle}
+							</DialogTitle>
+							<DialogDescription>
+								{copy.admin.cms.deleteConfirmBody}
+							</DialogDescription>
+						</DialogHeader>
+						{deleteGroup && (
+							<p className="text-sm text-muted-foreground">
+								{deleteGroup.from === deleteGroup.to
+									? copy.admin.cms.questionDetailTitle(
+											deleteGroup.from,
+										)
+									: copy.admin.cms.groupDetailTitle(
+											deleteGroup.from,
+											deleteGroup.to,
+										)}
+							</p>
+						)}
+						<DialogFooter>
+							<Button
+								type="button"
+								variant="outline"
+								disabled={isPending}
+								onClick={() => setDeleteGroupId(null)}
+							>
+								{copy.admin.cms.cancel}
+							</Button>
+							<Button
+								type="button"
+								variant="destructive"
+								disabled={isPending}
+								onClick={confirmDeleteGroup}
+							>
+								{copy.admin.cms.deleteGroup}
+							</Button>
+						</DialogFooter>
+					</DialogContent>
+				</Dialog>
+			)}
 		</div>
 	);
 }

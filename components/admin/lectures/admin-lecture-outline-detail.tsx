@@ -22,16 +22,15 @@ const KINDS = ["multiple_choice", "highlight", "rewrite", "fill_blank"] as const
 export function AdminLectureOutlineDetail({
 	mode,
 	outline,
-	onInsertLink,
 }: {
 	mode: OutlineMode;
 	outline: LectureOutlineController;
-	onInsertLink?: (section: number) => void;
 }) {
 	const paneRef = useRef<HTMLElement>(null);
 	const clearFocusRef = useRef(outline.clearFocus);
 	clearFocusRef.current = outline.clearFocus;
 	const fields = copy.admin.lectures.fields;
+	const itemLabel = mode === "lesson" ? fields.midLectureItem : fields.outlineSection;
 	const [bankOpen, setBankOpen] = useState(false);
 	const open = outline.open;
 
@@ -54,7 +53,7 @@ export function AdminLectureOutlineDetail({
 	if (open.mode === "none") {
 		return (
 			<p className="flex-1 rounded-[12px] border border-dashed border-border px-4 py-6 text-sm text-muted-foreground">
-				{fields.exerciseEmpty}
+				{mode === "lesson" ? fields.midLectureEmpty : fields.exerciseEmpty}
 			</p>
 		);
 	}
@@ -86,7 +85,7 @@ export function AdminLectureOutlineDetail({
 		>
 			<div className="flex flex-wrap items-start justify-between gap-3">
 				<h3 className="text-sm font-semibold">
-					{fields.outlineSection(sectionIndex + 1, meta.title)}
+					{itemLabel(sectionIndex + 1, meta.title)}
 				</h3>
 				{draft ? null : (
 					<Button
@@ -95,13 +94,15 @@ export function AdminLectureOutlineDetail({
 						size="sm"
 						onClick={() => outline.removeSection(open.key)}
 					>
-						{fields.deleteSection}
+						{mode === "lesson" ? fields.deleteMidLecture : fields.deleteSection}
 					</Button>
 				)}
 			</div>
 			<div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_12rem] sm:items-end">
 				<div className="space-y-2">
-					<Label htmlFor="outline-section-title">{fields.sectionTitle}</Label>
+					<Label htmlFor="outline-section-title">
+						{mode === "lesson" ? fields.midLectureTitle : fields.sectionTitle}
+					</Label>
 					<Input
 						id="outline-section-title"
 						value={meta.title}
@@ -145,16 +146,6 @@ export function AdminLectureOutlineDetail({
 					)}
 				</div>
 			</div>
-			{mode === "lesson" && !draft && onInsertLink ? (
-				<Button
-					type="button"
-					variant="outline"
-					size="sm"
-					onClick={() => onInsertLink(sectionIndex + 1)}
-				>
-					{fields.insertExerciseLink}
-				</Button>
-			) : null}
 			<div className="lg:hidden">
 				<AdminLectureOutlineChips
 					sections={outline.sections}
@@ -237,7 +228,11 @@ export function AdminLectureOutlineDetail({
 						disabled={outline.saveDisabled}
 						onClick={outline.save}
 					>
-						{draft || !question ? fields.saveSection : fields.saveQuestion}
+						{draft || !question
+							? mode === "lesson"
+								? fields.saveMidLecture
+								: fields.saveSection
+							: fields.saveQuestion}
 					</Button>
 				) : null}
 			</div>
