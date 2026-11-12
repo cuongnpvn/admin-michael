@@ -1,5 +1,6 @@
 import { parseQuestionExplanation } from "@/lib/content/question-explanation";
 import type { QuestionExplanation } from "@/lib/content/question-explanation";
+import { isLectureImageSrc } from "@/lib/lectures/sanitize-html";
 import { getClozeGuessStatus } from "@/lib/listening/cloze-guess";
 import { checkDictationAnswer } from "@/lib/listening/dictation-check";
 import type { DictationAnswerSegment } from "@/lib/listening/dictation-check";
@@ -63,6 +64,8 @@ export interface LectureQuestionPayload {
   bankBookId?: string;
   bankTestId?: string;
   bankItemNumber?: number;
+  /** Public images-bucket photo shown with a multiple-choice stem. */
+  imageUrl?: string;
 }
 
 export interface LectureKeyAnswer {
@@ -153,6 +156,9 @@ export function parseLecturePayload(value: unknown): LectureQuestionPayload {
   ) {
     payload.bankItemNumber = row.bankItemNumber;
   }
+  if (typeof row.imageUrl === "string" && isLectureImageSrc(row.imageUrl)) {
+    payload.imageUrl = row.imageUrl;
+  }
   return payload;
 }
 
@@ -224,6 +230,7 @@ export function publicPayload(
     ...(payload.bankBookId ? { bankBookId: payload.bankBookId } : {}),
     ...(payload.bankTestId ? { bankTestId: payload.bankTestId } : {}),
     ...(payload.bankItemNumber ? { bankItemNumber: payload.bankItemNumber } : {}),
+    ...(payload.imageUrl ? { imageUrl: payload.imageUrl } : {}),
   };
   if (kind === "highlight") {
     return { sentence: payload.sentence, labels: payload.labels, ...group };

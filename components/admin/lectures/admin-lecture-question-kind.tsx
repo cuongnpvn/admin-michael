@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { AdminQuestionExplanationFields } from "@/components/admin/exams/admin-question-explanation-fields";
+import { StorageImage } from "@/components/media/storage-image";
 import {
 	FillFields,
 	HighlightFields,
@@ -119,6 +120,15 @@ function ChoiceFields({
 }) {
 	return (
 		<div className="space-y-2">
+			{question.payload.imageUrl ? (
+				<div className="max-w-md overflow-hidden rounded-[12px] border border-border bg-muted/20">
+					<StorageImage
+						src={question.payload.imageUrl}
+						alt=""
+						className="h-auto w-full"
+					/>
+				</div>
+			) : null}
 			<Input
 				value={question.stem}
 				onChange={(event) => onChange({ stem: event.target.value })}
