@@ -36,12 +36,20 @@ function escapeHtml(value: string): string {
     .replaceAll('"', "&quot;");
 }
 
+/** A fill-in list repeated above the open-exercise link. The exercise shows it once. */
+export function stripFillWordBankIntros(html: string): string {
+  return html.replace(
+    /<p>\s*(?:Word bank|Ngân từ)\s*:[\s\S]*?<\/p>\s*(?=(?:<p>\s*)?mid-practice-\d+\b)/gi,
+    "",
+  );
+}
+
 /** Turn a practice token in text into the link the lecture drawer already opens. */
 export function rewriteMidPracticeTokens(
   html: string,
   titles?: ReadonlyMap<number, string>,
 ): string {
-  return html.replace(
+  return stripFillWordBankIntros(html).replace(
     MID_PRACTICE_TOKEN,
     (match, tag?: string, _token?: string, digits?: string) => {
       if (tag || !digits || !/^[1-9]\d*$/.test(digits)) return match;
