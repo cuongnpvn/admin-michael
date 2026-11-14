@@ -78,6 +78,48 @@ export function emptyOutlineQuestion(
 	return { ...question, kind, options: [], correctOptionId: null };
 }
 
+export function questionWithKind(
+	question: LectureQuestionInsert,
+	kind: LectureExerciseKind,
+): LectureQuestionInsert {
+	if (question.kind === kind) return question;
+	const text =
+		question.stem.trim() ||
+		question.payload.prompt.trim() ||
+		question.payload.sentence.trim();
+	const payload = { ...question.payload };
+	let stem = question.stem;
+	if (kind === "highlight" && !payload.sentence.trim() && text) {
+		payload.sentence = text;
+	}
+	if (kind === "rewrite" && !payload.prompt.trim() && text) {
+		payload.prompt = text;
+	}
+	if (kind === "fill_blank" && text && !fillText(payload.parts)) {
+		payload.parts = [{ type: "text", text }];
+	}
+	if (kind === "multiple_choice" && !stem.trim() && text) stem = text;
+	if (kind !== "multiple_choice" || question.options.length >= 4) {
+		return { ...question, kind, stem, payload };
+	}
+	const fresh = emptyOutlineQuestion("multiple_choice");
+	return {
+		...question,
+		kind,
+		stem,
+		payload,
+		options: fresh.options,
+		correctOptionId: fresh.correctOptionId,
+	};
+}
+
+function fillText(parts: LectureQuestionInsert["payload"]["parts"]): string {
+	return parts
+		.map((part) => (part.type === "text" ? part.text : ""))
+		.join("")
+		.trim();
+}
+
 export function questionIsSavable(
 	question: LectureQuestionInsert,
 	part?: "1" | "5",

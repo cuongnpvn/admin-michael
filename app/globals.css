@@ -593,8 +593,21 @@
   .lecture-html .example > .translation:not(:last-child),
   .lecture-html .formula > .translation:not(:last-child) {
     margin-top: 0.15rem;
+  }
+
+  .lecture-html .example > .translation:not(:has(+ img)):not(:last-child),
+  .lecture-html .formula > .translation:not(:has(+ img)):not(:last-child) {
     padding-bottom: 0.55rem;
     border-bottom: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+  }
+
+  .lecture-html .example > div:has(> img),
+  .lecture-html .formula > div:has(> img),
+  .lecture-html .example > div:has(> img) + div:not(:has(> img)):has(> .translation),
+  .lecture-html .formula > div:has(> img) + div:not(:has(> img)):has(> .translation) {
+    max-width: 28rem;
+    margin-inline: auto;
+    text-align: center;
   }
 
   .lecture-html .translation > * + * {

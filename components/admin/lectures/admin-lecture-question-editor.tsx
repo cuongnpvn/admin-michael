@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminLectureOutlineEditor } from "@/components/admin/lectures/admin-lecture-outline-editor";
+import { AdminLectureMidEditor } from "@/components/admin/lectures/admin-lecture-mid-editor";
 import type { LectureQuestionInsert } from "@/lib/lectures/options";
 
 export function AdminLectureQuestionEditor({
@@ -13,8 +13,7 @@ export function AdminLectureQuestionEditor({
 	onPendingChange?: (pending: boolean) => void;
 }) {
 	return (
-		<AdminLectureOutlineEditor
-			mode="lesson"
+		<AdminLectureMidEditor
 			questions={questions}
 			onChange={onChange}
 			onPendingChange={onPendingChange}

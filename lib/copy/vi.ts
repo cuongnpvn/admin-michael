@@ -3310,6 +3310,13 @@ export const copy = {
 				discardItem: "Bỏ",
 				discardChanges: "Bỏ thay đổi",
 				saveQuestion: "Lưu câu",
+				editQuestion: "Sửa câu",
+				questionsHeading: "Câu hỏi",
+				questionCount: (count: number) => `${count} câu`,
+				questionEmpty: "Chưa có nội dung",
+				midLectureKindHint: "Một mid-lecture chỉ dùng một dạng bài.",
+				changeMidLectureKind:
+					"Đổi dạng bài cho cả mid-lecture? Mọi câu trong mid-lecture này sẽ dùng dạng mới.",
 				deleteQuestion: "Xóa câu",
 				deleteQuestionConfirm: "Xóa câu này?",
 				deleteSection: "Xóa phần",
