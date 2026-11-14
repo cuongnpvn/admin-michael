@@ -477,6 +477,29 @@
     border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
   }
 
+  .lecture-html .formula > * + * {
+    margin-top: 0.35rem;
+  }
+
+  .lecture-html .preface {
+    background: color-mix(in oklab, var(--muted) 65%, var(--background));
+    border-color: var(--border);
+    border-left: 3px solid color-mix(in oklab, var(--muted-foreground) 40%, var(--border));
+  }
+
+  .lecture-html .preface > * + * {
+    margin-top: 0.55rem;
+  }
+
+  .lecture-html .preface h4 {
+    margin-top: 0.15rem;
+    font-size: 1.05rem;
+  }
+
+  .lecture-html .preface table {
+    margin-top: 0.2rem;
+  }
+
   .lecture-html .cols {
     display: grid;
     grid-template-columns: 1fr;
@@ -527,17 +550,51 @@
     border-top: 3px solid #c4b5fd;
   }
 
+  .lecture-html .example.pair-a {
+    background: color-mix(in oklab, #f59e0b 16%, var(--background));
+    border-color: color-mix(in oklab, #f59e0b 42%, var(--border));
+    border-top: 3px solid #fbbf24;
+  }
+
+  .lecture-html .example.pair-b {
+    background: color-mix(in oklab, #3b82f6 16%, var(--background));
+    border-color: color-mix(in oklab, #3b82f6 42%, var(--border));
+    border-top: 3px solid #60a5fa;
+  }
+
   .lecture-html .example.verb .kicker { color: #60a5fa; }
   .lecture-html .example.noun .kicker { color: #fbbf24; }
   .lecture-html .example.person .kicker { color: #2dd4bf; }
   .lecture-html .example.staff .kicker { color: #fb7185; }
   .lecture-html .example.adj .kicker { color: #c4b5fd; }
+  .lecture-html .example.pair-a .kicker { color: #fbbf24; }
+  .lecture-html .example.pair-b .kicker { color: #60a5fa; }
+
+  .lecture-html .en {
+    font-style: italic;
+  }
+
+  .lecture-html .example > p:not(.kicker):has(+ .translation),
+  .lecture-html .formula > p:not(.kicker):has(+ .translation) {
+    font-style: italic;
+  }
 
   .lecture-html .translation {
     display: block;
     margin-top: 0.2rem;
     color: var(--muted-foreground);
-    font-style: italic;
+    font-style: normal;
+  }
+
+  .lecture-html .prompt {
+    font-weight: 650;
+  }
+
+  .lecture-html .example > .translation:not(:last-child),
+  .lecture-html .formula > .translation:not(:last-child) {
+    margin-top: 0.15rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
   }
 
   .lecture-html .translation > * + * {
