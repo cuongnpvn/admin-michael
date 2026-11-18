@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
-import { FileText } from "lucide-react";
+import { FileText, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { ExportPassageTranslationsButton } from "@/components/admin/export/export-passage-translations-button";
 import { ImportContentVocabularyDialog } from "@/components/admin/import/import-content-vocabulary-dialog";
@@ -14,6 +14,7 @@ import {
 } from "@/components/admin/exams/admin-passage-detail-dialog";
 import type { QuestionDraft } from "@/components/admin/exams/admin-question-detail-dialog";
 import {
+  deleteAdminPassageSet,
   saveAdminPassageSet,
   saveAdminQuestionRow,
 } from "@/lib/admin/content/part-editor-actions";
@@ -22,6 +23,14 @@ import { copy } from "@/lib/copy/vi";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type {
   AdminPartEditorData,
   AdminPassageSetRow,
@@ -67,6 +76,7 @@ export function AdminReadingPassageCms({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [selectedSetId, setSelectedSetId] = useState<string | null>(null);
+  const [deleteSetId, setDeleteSetId] = useState<string | null>(null);
 
   const partNum = Number.parseInt(initialData.part, 10);
 
@@ -77,6 +87,9 @@ export function AdminReadingPassageCms({
 
   const selectedSet = selectedSetId
     ? initialData.passageSets.find((set) => set.id === selectedSetId) ?? null
+    : null;
+  const deleteSet = deleteSetId
+    ? initialData.passageSets.find((set) => set.id === deleteSetId) ?? null
     : null;
 
   const selectedQuestions = useMemo(() => {
@@ -114,6 +127,24 @@ export function AdminReadingPassageCms({
           draft,
         ),
       () => setSelectedSetId(null),
+    );
+  }
+
+  function confirmDeleteSet() {
+    if (!deleteSetId) return;
+    const setId = deleteSetId;
+    runAction(
+      () =>
+        deleteAdminPassageSet(
+          initialData.bookId,
+          initialData.testId,
+          partNum,
+          setId,
+        ),
+      () => {
+        setDeleteSetId(null);
+        setSelectedSetId((current) => (current === setId ? null : current));
+      },
     );
   }
 
@@ -209,44 +240,64 @@ export function AdminReadingPassageCms({
             );
 
             return (
-              <button
+              <Card
                 key={set.id}
-                type="button"
+                role="button"
+                tabIndex={0}
                 onClick={() => setSelectedSetId(set.id)}
-                className="text-left"
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setSelectedSetId(set.id);
+                  }
+                }}
+                className={cn(
+                  "h-full cursor-pointer text-left transition-calm hover:-translate-y-px hover:border-primary/30 hover:shadow-card",
+                )}
               >
-                <Card
-                  className={cn(
-                    "h-full transition-calm hover:-translate-y-px hover:border-primary/30 hover:shadow-card",
-                  )}
-                >
-                  <CardHeader className="space-y-3 pb-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex size-10 shrink-0 items-center justify-center rounded-[14px] bg-primary/10 text-primary">
-                        <FileText className="size-5" />
-                      </div>
+                <CardHeader className="space-y-3 pb-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-[14px] bg-primary/10 text-primary">
+                      <FileText className="size-5" />
+                    </div>
+                    <div className="flex shrink-0 items-start gap-1">
                       <Badge variant="outline">{set.layout}</Badge>
+                      <Button
+                        type="button"
+                        size="icon"
+                        variant="ghost"
+                        disabled={isPending}
+                        className="size-8 text-muted-foreground hover:text-destructive"
+                        aria-label={copy.admin.cms.deleteGroup}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setDeleteSetId(set.id);
+                        }}
+                        onKeyDown={(event) => event.stopPropagation()}
+                      >
+                        <Trash2 className="size-4" />
+                      </Button>
                     </div>
-                    <CardTitle className="line-clamp-2 text-lg">{title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3 pt-0">
-                    <DifficultyScaleBar score={setDifficultyStat?.median ?? 0} />
-                    <p className="line-clamp-4 text-sm text-muted-foreground">
-                      {passagePreview(set)}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      <Badge variant="secondary">
-                        {questionRangeLabel(set, questionById)}
+                  </div>
+                  <CardTitle className="line-clamp-2 text-lg">{title}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 pt-0">
+                  <DifficultyScaleBar score={setDifficultyStat?.median ?? 0} />
+                  <p className="line-clamp-4 text-sm text-muted-foreground">
+                    {passagePreview(set)}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary">
+                      {questionRangeLabel(set, questionById)}
+                    </Badge>
+                    {set.passages.length > 1 ? (
+                      <Badge variant="outline">
+                        {set.passages.length} passages
                       </Badge>
-                      {set.passages.length > 1 ? (
-                        <Badge variant="outline">
-                          {set.passages.length} passages
-                        </Badge>
-                      ) : null}
-                    </div>
-                  </CardContent>
-                </Card>
-              </button>
+                    ) : null}
+                  </div>
+                </CardContent>
+              </Card>
             );
           })}
         </div>
@@ -267,6 +318,45 @@ export function AdminReadingPassageCms({
         onSavePassageSet={savePassageSet}
         onSaveQuestion={saveQuestionRow}
       />
+
+      <Dialog
+        open={deleteSetId !== null}
+        onOpenChange={(open) => {
+          if (!open) setDeleteSetId(null);
+        }}
+      >
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>{copy.admin.cms.deleteGroupConfirmTitle}</DialogTitle>
+            <DialogDescription>
+              {copy.admin.cms.deleteConfirmBody}
+            </DialogDescription>
+          </DialogHeader>
+          {deleteSet ? (
+            <p className="text-sm text-muted-foreground">
+              {questionRangeLabel(deleteSet, questionById)}
+            </p>
+          ) : null}
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isPending}
+              onClick={() => setDeleteSetId(null)}
+            >
+              {copy.admin.cms.cancel}
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={isPending}
+              onClick={confirmDeleteSet}
+            >
+              {copy.admin.cms.deleteGroup}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
